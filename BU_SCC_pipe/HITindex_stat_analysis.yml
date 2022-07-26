@@ -1,0 +1,17 @@
+name: HITindex_stat_analysis
+dependencies:
+  - python==3.6.3
+  - pip
+  - pip:
+    - scipy==1.5.2
+    - sympy
+    - sklearn
+    - statsmodels
+    - numpy==1.19.2
+    - pysam
+    - pybedtools
+    - pandas==0.25.3
+    - pymc3==3.9.3
+    - arviz==0.11.0
+
+
