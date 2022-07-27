@@ -136,6 +136,7 @@ outname contain following columns:
 | type | whether this exon is AFE or ALE |
 | outlier | the ourlier for this exon |
 | delta_PSI | the difference of average PSI between two conditions excluding outliers|
+| log2fc | the log2 fold change between the two conditions (log2(cond1/cond2))|
 | bio_significant | whether the PSI different between conditions are biological significant which is set by user and default is 0.1 |
 
 outname.AFEPSI and outname.AFEPSI contain following columns:
