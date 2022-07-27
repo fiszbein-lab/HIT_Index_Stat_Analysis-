@@ -575,6 +575,7 @@ def biological_significant(analysis_result, sample_type, value = 0.1):
             control_sample += [i[0]]
 
     result_df['delta_PSI'] = -1.00
+    result_df['log2fc'] = 0.00
     result_df['bio_significant'] = "False"
 
 
@@ -599,6 +600,7 @@ def biological_significant(analysis_result, sample_type, value = 0.1):
             if abs(average_control_PSI - average_test_PSI) >= value:
                 result_df.at[index,'bio_significant'] = "True"
             result_df.at[index,'delta_PSI'] = (average_control_PSI - average_test_PSI)
+            result_df.at[index, 'log2fc'] = (math.log2((average_control_PSI+0.00001)/(average_test_PSI+0.00001)))
 
     result_df.to_csv(analysis_result, sep = ' ', index=False)
     return result_df
@@ -649,11 +651,11 @@ def concise_exon_infor_extraction(input_df, outname, critical_value = '0.01'):
     and data analysis.
     """
     output = open(f'{outname}.diffexons', 'w')
-    print('gene exon p-value delta_PSI type', file = output)
+    print('gene exon p-value delta_PSI log2fc type', file = output)
 
     for index, row in input_df.iterrows():
         if (row[f'{critical_value}'] == 'True') and row['bio_significant'] == 'True':
-            print(row['gene'], row['exon'], row['p_value'], row['delta_PSI'], row['type'], file = output)
+            print(row['gene'], row['exon'], row['p_value'], row['delta_PSI'], row['log2fc'],row['type'], file = output)
 
     output.close()
 
@@ -791,11 +793,11 @@ if __name__ == '__main__':
         if args.outlierDetection != 'default' and args.outlierDetection != 'merge' and args.outlierDetection != 'separate'and args.outlierDetection != '4/n' and args.outlierDetection != '4*mean' and args.outlierDetection != '1':
             sys.exit('ERROR! input for outlierDetection cannot be recognized, please check input again')
         if args.outlierMethod != 'cooks' and args.outlierMethod != 'iqr' and args.outlierMethod != 'none':
-            sys.exit('ERROR! input for outlierMethod cannot be recognized, please check input again')  
+            sys.exit('ERROR! input for outlierMethod cannot be recognized, please check input again')
         if args.outlierMethod == 'cooks' and (args.outlierDetection == 'default' or args.outlierDetection == 'merge' or args.outlierDetection == 'separate'):
-            sys.exit('ERROR! You are using cooks outlier detection method, please only use default, merge, or separate for iqr')  
+            sys.exit('ERROR! You are using cooks outlier detection method, please only use default, merge, or separate for iqr')
         if args.outlierMethod == 'iqr' and (args.outlierDetection == '4/n' or args.outlierDetection == '4*mean' or args.outlierDetection == '1'):
-            sys.exit('ERROR! You are using iqr outlier detection method, please only use 4/n, 4*mean, or 1 for cooks') 
+            sys.exit('ERROR! You are using iqr outlier detection method, please only use 4/n, 4*mean, or 1 for cooks')
         if args.multipleTesting != 'bonferroni' and args.multipleTesting != 'sidak' and args.multipleTesting != 'holm-sidak' and args.multipleTesting != 'holm' and args.multipleTesting != 'simes-hochbergh' and args.multipleTesting != 'hommel' and args.multipleTesting != 'fdr_bh' and args.multipleTesting != 'fdr_by' and args.multipleTesting != 'fdr_tsbh' and args.multipleTesting != 'fdr_tsbky':
             sys.exit('ERROR! input for multipleTesting cannot be recognized, please check input again')
         if float(args.criticalValue) <= 0.0 or float(args.criticalValue) > 1.0:
