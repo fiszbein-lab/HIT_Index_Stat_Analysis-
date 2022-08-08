@@ -116,8 +116,7 @@ python HITindex_stat_analysis.py --statAnalysis --condition1 sample1,sample2,sam
 ```
 
 **Output**
-This step result in 5 files: outname outname.AFEPSI outname.ALEPSI outname.genelist outname.diffexons
-
+This step result in 5 files: outname outname.AFEPSI outname.ALEPSI outname.genelist outname.diffexons. Each column in these files are separated with ' '. 
 outname contain following columns:
 
 | Column Name | Description |
