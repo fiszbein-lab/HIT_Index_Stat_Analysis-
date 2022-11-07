@@ -202,7 +202,7 @@ def outlier_detection(sample_type, df_row, outlier_treatment = 'default', outlie
     whether there is an outliar. Due to the sample size limitation, test and control group
     will be merge together for the computation if each group have fewer than 5 samples.
     The function will output an list of sample_names with no outliar for next step compuation
-    and a list of outliar. It use 1.5 IQR to to see whether there is an outliar
+    and a list of outliar. 
     returned result in format: [usable_sample_list, outlier]
     """
 
